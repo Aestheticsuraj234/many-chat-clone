@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ClerkProvider } from '@clerk/nextjs'
+import React from "react";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { Toaster } from "sonner";
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +18,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // @ts-ignore
+    <ClerkProvider >
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+      <body    className={jakarta.className}>{children}
+        <Toaster/>
+      </body>
+      </ThemeProvider>
     </html>
+    </ClerkProvider>
   );
 }

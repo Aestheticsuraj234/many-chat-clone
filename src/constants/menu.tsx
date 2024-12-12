@@ -1,10 +1,6 @@
-import {
-    AutomationDuoToneWhite,
-    HomeDuoToneWhite,
-    RocketDuoToneWhite,
-    SettingsDuoToneWhite,
-  } from '@/icons'
+
   import { v4 as uuid } from 'uuid'
+import { AutomationDuoToneWhite, HomeDuoToneWhite, RocketDuoToneWhite, SettingsDuoToneWhite } from '@/icons'
   
   export type FieldProps = {
     label: string

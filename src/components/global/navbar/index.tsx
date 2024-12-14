@@ -1,40 +1,34 @@
 "use client";
+
+import { PAGE_BREAD_CRUMBS } from "@/constants/pages";
 import { usePaths } from "@/hooks/use-nav";
-import { LogoSmall } from "@/svgs/logo-small";
 import React from "react";
-import Items from "./items";
+import Sheet from "../sheet";
+import { Menu } from "lucide-react";
+import Sidebar from "../sidebar";
+import { LogoSmall } from "@/svgs/logo-small";
+import Items from "../sidebar/items";
 import { Separator } from "@/components/ui/separator";
-import ClerkAuthState from "@/components/global/clerk-auth-state";
+import ClerkAuthState from "../clerk-auth-state";
 import { HelpDuoToneWhite } from "@/icons";
 import { SubscriptionPLan } from "../subscription-plan";
-import UpgradeCard from "./upgrade";
+import UpgradeCard from "../sidebar/upgrade";
 
 type Props = {
   slug: string;
 };
 
-const Sidebar = ({ slug }: Props) => {
-  const { page, pathname } = usePaths();
+const Navbar = ({ slug }: Props) => {
+  const { page } = usePaths();
+  const currentPage = PAGE_BREAD_CRUMBS.includes(page) || page == slug;
+
   return (
-    <div
-      className="w-[250px] 
-    border-[1px]
-    radial 
-    fixed 
-    left-0 
-    lg:inline-block
-    border-[#545454] 
-    bg-gradient-to-b from-[#768BDD] 
-    via-[#171717]
-     to-[#768BDD] 
-     hidden 
-     bottom-0 
-     top-0 
-     m-3 
-     rounded-3xl 
-     overflow-hidden"
-    >
-      <div
+    currentPage && (
+      <div className="flex flex-col">
+        <div className="flex gap-x-3 lg:gap-x-5 justify-end">
+          <span className="lg:hidden flex items-center flex-1 gap-x-2">
+            <Sheet side="left" trigger={<Menu />} className="lg:hidden">
+            <div
         className="flex flex-col 
       gap-y-5
        w-full 
@@ -72,8 +66,11 @@ const Sidebar = ({ slug }: Props) => {
         </div>
        </SubscriptionPLan>
       </div>
-    </div>
+            </Sheet>
+          </span>
+        </div>
+      </div>
+    )
   );
 };
-
-export default Sidebar;
+export default Navbar;

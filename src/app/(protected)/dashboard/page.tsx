@@ -1,14 +1,17 @@
-import React from 'react'
+import { OnBoardUser } from "@/actions/user";
+import { redirect } from "next/navigation";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
-const Page = (props: Props) => {
+const Page = async (props: Props) => {
+  const user = await OnBoardUser();
+  if (user.status === 200 || user.status === 201) {
+    return redirect(`/dashboard/${user.data?.firstname}${user.data?.lastname}`);
+  }
 
-    // server action onboard the user
-    // 200 / 201
-  return (
-    <div>Page</div>
-  )
-}
 
-export default Page
+  return redirect("/sign-in")
+};
+
+export default Page;

@@ -1,3 +1,4 @@
+
 import { getAutomationInfo } from '@/actions/automations'
 import PostNode from '@/components/global/automations/post'
 import ThenNode from '@/components/global/automations/then'

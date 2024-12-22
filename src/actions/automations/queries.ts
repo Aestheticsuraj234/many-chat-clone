@@ -77,3 +77,26 @@ export const getAutomations = async (clerkId: string) => {
       },
     })
   }
+
+
+  export const addListener = async (
+    automationId: string,
+    listener: 'SMARTAI' | 'MESSAGE',
+    prompt: string,
+    reply?: string
+  ) => {
+    return await client.automation.update({
+      where: {
+        id: automationId,
+      },
+      data: {
+        listener: {
+          create: {
+            listener,
+            prompt,
+            commentReply: reply,
+          },
+        },
+      },
+    })
+  }

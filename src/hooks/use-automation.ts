@@ -1,9 +1,12 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useMutationData } from "./use-mutation-data"
-import { createAutomations, saveListener, updateAutomationName } from "@/actions/automations"
+import { createAutomations, deleteKeyword, saveKeyword, saveListener, saveTrigger, updateAutomationName } from "@/actions/automations"
 import {z} from "zod"
 import useZodForm from "./use-zod-form"
+import { AppDispatch, useAppSelector } from "@/redux/store"
+import { useDispatch } from "react-redux"
+import { TRIGGER } from "@/redux/slices/automation"
 
 export const useCreateAutomation = (id?: string)=>{
     const {isPending , mutate} = useMutationData(
@@ -82,4 +85,51 @@ const { errors, onFormSubmit, register, reset, watch } = useZodForm(
 const onSetListener = (type: 'SMARTAI' | 'MESSAGE') => setListener(type)
 return { onSetListener, register, onFormSubmit, listener, isPending }
 
+}
+
+export const useTriggers = (id: string) => {
+  const types = useAppSelector((state) => state.AutomationReducer.trigger?.types)
+
+  const dispatch: AppDispatch = useDispatch()
+
+  const onSetTrigger = (type: 'COMMENT' | 'DM') =>
+    dispatch(TRIGGER({ trigger: { type } }))
+
+  const { isPending, mutate } = useMutationData(
+    ['add-trigger'],
+    (data: { types: string[] }) => saveTrigger(id, data.types),
+    'automation-info'
+  )
+
+  const onSaveTrigger = () => mutate({ types })
+  return { types, onSetTrigger, onSaveTrigger, isPending }
+}
+
+
+export const useKeywords = (id: string) => {
+  const [keyword, setKeyword] = useState('')
+  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setKeyword(e.target.value)
+
+  const { mutate } = useMutationData(
+    ['add-keyword'],
+    (data: { keyword: string }) => saveKeyword(id, data.keyword),
+    'automation-info',
+    () => setKeyword('')
+  )
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      mutate({ keyword })
+      setKeyword('')
+    }
+  }
+
+  const { mutate: deleteMutation } = useMutationData(
+    ['delete-keyword'],
+    (data: { id: string }) => deleteKeyword(data.id),
+    'automation-info'
+  )
+
+  return { keyword, onValueChange, onKeyPress, deleteMutation }
 }

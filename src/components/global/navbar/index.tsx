@@ -11,7 +11,7 @@ import Items from "../sidebar/items";
 import { Separator } from "@/components/ui/separator";
 import ClerkAuthState from "../clerk-auth-state";
 import { HelpDuoToneWhite } from "@/icons";
-import { SubscriptionPLan } from "../subscription-plan";
+import { SubscriptionPlan } from "../subscription-plan";
 import UpgradeCard from "../sidebar/upgrade";
 import CreateAutomation from "../create-automation";
 import Search from "../search";
@@ -67,11 +67,11 @@ const Navbar = ({ slug }: Props) => {
                     <p className="text-[#9b9ca0]">Help</p>
                   </div>
                 </div>
-                <SubscriptionPLan type="FREE">
+                <SubscriptionPlan type="FREE">
                   <div className="flex-1 flex flex-col justify-end">
                     <UpgradeCard />
                   </div>
-                </SubscriptionPLan>
+                </SubscriptionPlan>
               </div>
             </Sheet>
           </span>
